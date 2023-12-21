@@ -5,13 +5,12 @@
 #include <bitset>
 #include <limits.h>
 
-
 using std::cout;
 using std::endl;
 using std::cin;
 
 int result = 0b00000000;
-int dataCheck(int a) { // Проверка на бинарность ответа
+int dataCheck1or2(int a) { // Проверка на бинарность ответа
     setlocale(LC_ALL, "ru");
     while (cin.fail() || a < 1 || a > 2) {
         cin.clear();
@@ -22,7 +21,7 @@ int dataCheck(int a) { // Проверка на бинарность ответ�
     return a;
 }
 
-int dataCheck2(int a) { // Проверка на норм ответ
+int dataCheck1or8(int a) { // Проверка на норм ответ
     setlocale(LC_ALL, "ru");
     while (cin.fail() || a < 1 || a > 8) {
         cin.clear();
@@ -32,7 +31,6 @@ int dataCheck2(int a) { // Проверка на норм ответ
     }
     return a;
 }
-
 
 char resultF(int a) {
     if (a == 1) {
@@ -54,8 +52,125 @@ char resultF(int a) {
     return 0;
 }
 
+int question(int answer2) {
+    switch (answer2)
+    {
+        int answer;
+    case 1:
+        cout << "Вопрос 1. В любой многоугольник можно вписать окружность?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+        
+    case 2:
+        cout << "Вопрос 2. Треугольник называется правильным, если все его стороны и углы равны?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case 3:
+        cout << "Вопрос 3. Любой четырехугольник с равными сторонами является правильным?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+        
+    case 4:
+        cout << "Вопрос 4. В правильном треугольнике каждый угол равен 60 градусов?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case 5:
+        cout << "Вопрос 5. Периметр квадрата, вписанного в окружность радиуса 2, равен 8?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case 6:
+        cout << "Вопрос 6. Ромб –правильный четырехугольник?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case 7:
+        cout << "Вопрос 7. Любой прямоугольник можно вписать в окружность?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+         
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    case 8:
+        cout << "Вопрос 8. Около любого правильного многоугольника можно описать окружность и притом только одну?" << endl;
+        cout << "1. Да \t 2. Нет" << endl;
+        cin >> answer;
+        answer = dataCheck1or2(answer);
+        if (answer == 1)
+            return 1;
+        else
+            return 0;
+        break;
+    }
+}
+
+int saveFunction(int massive[8]) {
+    int massive1[8];
+    int z = 0;
+    for (int i = 0; i < 8; i++) {
+        massive1[i] = massive[7-i];
+    }
+    for (int i = 0; i < 8; i++) {
+        if (massive1[i] == 1)
+            z = z * 2 + 1;
+        else
+            z *= 2;
+    }
+    for (int i = 0; i < 8; i++) {
+        cout << endl << massive[i];
+    }
+    char n = z;
+    std::cout << endl << "z: " << z << endl << "n: " << n << endl;
+    std::ofstream out;
+    out.open("result");
+    out << n << endl;
+    out.close();
+    return 0;
+}
+
 int main()
 {
+    bool flagChange = false;
+    bool flagPass = false;
+    std::ofstream out;
     int result = 0b00000000;
     int answer = 0;
     int answerCounter = 0;
@@ -64,7 +179,7 @@ int main()
     cout << "Здравстуйте! Желаете пройти тест, или ознакомиться с результатом?." << endl;
     cout << "1. Пройти тест. \t 2. Узнать результат." << endl;
     cin >> answer;
-    answer = dataCheck(answer);
+    answer = dataCheck1or2(answer);
     if (answer == 2) {
 
         std::string line;
@@ -72,22 +187,34 @@ int main()
         in.open("result");
 
         if (in.is_open()) { // проверка на существование файла
+
             getline(in, line);
-            cout << line;
-            unsigned int result = line[0];
-            cout << "Ваши ответы: " << result << endl;
+            int result = line[0];
 
+            if (result < 0)
+                result += 256; 
+            cout << "Ваши ответы: " << endl;
+            int resultM[8];
 
-            for (int i = 1; i < 9; i++) {
-                int j = i - 0;
-                cout << i << ". ";
-                if (result / 2 == 0) {
-                    cout << "Нет \t";
+            for (int i = 0; i < 9; i++) { // Разворачиваю число
+                if (result % 2 == 0) {
+                    resultM[i] = 0;
                     result = result / 2;
                 }
-                else {
-                    cout << "Да \t";
+                else{
+                    resultM[i] = 1;
                     result = result / 2;
+                }
+            }
+            int j = 0;
+
+            for (int i = 7; i > -1; i--) {
+                cout << ++j << ". ";
+                if (resultM[i] == 0) {
+                    cout << "Нет \t";
+                }
+                if (resultM[i] ==1) {
+                    cout << "Да \t";
                 }
 
             }
@@ -95,137 +222,90 @@ int main()
             cout << "Желаете их изменить?" << endl;
             cout << "1. Да \t 2. Нет" << endl;
             cin >> answer;
-            answer = dataCheck(answer);
+            answer = dataCheck1or2(answer);
             if (answer == 1) {
-                cout << "Введите номер вопроса, ответ на который, желаете изменить: " << endl;
-                int answer2;
-                cin >> answer2;
-                answer2 = dataCheck2(answer2);
-                switch (answer2)
-                {
-                case 1:
-                    cout << "Вопрос 1. В любой многоугольник можно вписать окружность?" << endl;
+                do {
+                    cout << "Введите номер вопроса, ответ на который, желаете изменить (1-8): " << endl;
+                    int chNum;
+                    cin >> chNum;
+                    chNum = dataCheck1or8(chNum);
+                    resultM [7 - chNum + 1] = question(chNum);
+                    saveFunction(resultM);
+                    cout << "Ваш ответ сохранён. Хотите изменить другой вопрос?" << endl;
                     cout << "1. Да \t 2. Нет" << endl;
                     cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 2:
-                    cout << "Вопрос 2. Треугольник называется правильным, если все его стороны и углы равны?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 3:
-                    cout << "Вопрос 3. Любой четырехугольник с равными сторонами является правильным?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 4:
-                    cout << "Вопрос 4. В правильном треугольнике каждый угол равен 60 градусов?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 5:
-                    cout << "Вопрос 5. Периметр квадрата, вписанного в окружность радиуса 2, равен 8?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 6:
-                    cout << "Вопрос 6. Ромб –правильный четырехугольник?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 7:
-                    cout << "Вопрос 7. Любой прямоугольник можно вписать в окружность?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                case 8:
-                    cout << "Вопрос 8. Около любого правильного многоугольника можно описать окружность и притом только одну?" << endl;
-                    cout << "1. Да \t 2. Нет" << endl;
-                    cin >> answer;
-                    answer = dataCheck(answer);
-                    resultF(answer);
-                    break;
-                }
-                // ДОБАВИТЬ СЮДА СОХРАНЕНИЕ ИЗМЕНЕННЫХ ВОПРОСОВ И ВОЗМОЖНО ЗАЦИКЛИТЬ С ВОПРОСОМ, ВСЁ ЛИ ЧТО ОНИ ХОТЕЛИ ПОМЕНЯТЬ
+                    answer = dataCheck1or2(answer);
+                } while (answer != 2);
             }
 
         }
+        
         else { //если файла нет, СДЕЛАТЬ ЧТОБЫ ДАЛЬШЕ НЕ ШЛО
             cout << "Ошибки, файл не найден." << endl;
             bool fileExistance = false;
             system("pause");
         }
-
+        flagChange = true;
     }
-    if (fileExistance == true) {
+    if (fileExistance == true and flagChange == false) {
 
         cout << "Вопрос 1. В любой многоугольник можно вписать окружность?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 2. Треугольник называется правильным, если все его стороны и углы равны?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 3. Любой четырехугольник с равными сторонами является правильным?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 4. В правильном треугольнике каждый угол равен 60 градусов?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 5. Периметр квадрата, вписанного в окружность радиуса 2, равен 8?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 6. Ромб –правильный четырехугольник?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 7. Любой прямоугольник можно вписать в окружность?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
 
         cout << "Вопрос 8. Около любого правильного многоугольника можно описать окружность и притом только одну?" << endl;
         cout << "1. Да \t 2. Нет" << endl;
         cin >> answer;
-        answer = dataCheck(answer);
+        answer = dataCheck1or2(answer);
         resultF(answer);
+        flagPass = true;
     }
 
-    std::ofstream out;
-    out.open("result");
-    out << resultF(3) << endl;
-    out.close();
+    cout << "Спасибо за использование программы, досвидания." << endl;;
+    if (flagPass) {
+        out.open("result");
+        out << resultF(3) << endl;
+        out.close();
+    }
+    
 }
 
 
