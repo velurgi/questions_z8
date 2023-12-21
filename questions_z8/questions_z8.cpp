@@ -194,9 +194,9 @@ int main()
             if (result < 0)
                 result += 256; 
             cout << "Ваши ответы: " << endl;
-            int resultM[8];
+            int resultM[8] = { 0,0,0,0,0,0,0,0 };
 
-            for (int i = 0; i < 9; i++) { // Разворачиваю число
+            for (int i = 0; i < 8; i++) { // Разворачиваю число
                 if (result % 2 == 0) {
                     resultM[i] = 0;
                     result = result / 2;
@@ -296,16 +296,13 @@ int main()
         cin >> answer;
         answer = dataCheck1or2(answer);
         resultF(answer);
-        flagPass = true;
-    }
-
-    cout << "Спасибо за использование программы, досвидания." << endl;;
-    if (flagPass) {
         out.open("result");
         out << resultF(3) << endl;
         out.close();
     }
-    
+
+    cout << "Спасибо за использование программы, досвидание." << endl;
+    return 0;
 }
 
 
